@@ -83,8 +83,6 @@ class NewsLive extends React.Component {
         let score = this.props.resource.score;
         var color = "#333";
         if (score === 2) {
-            color = "orange";
-        } else if (score === 3) {
             color = "#ff5959"
         }
         let display_time = this.props.resource.display_time;

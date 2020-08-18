@@ -12,33 +12,31 @@ export default class News extends React.Component {
     }
 
     componentDidMount() {
+        this.requestList();
+    }
+
+    requestList(next_cursor) {
         fetch(
-            'https://api-wscn.xuangubao.cn/apiv1/content/information-flow?limit=100&channel=global&accept=article,live&cursor='
+            'https://api-wscn.xuangubao.cn/apiv1/content/information-flow?limit=200&channel=global&accept=article,live&cursor=' + {next_cursor}
         )
         .then(res => res.json())
         .then(data => {
-            // console.log(data.data)
-            this.setState({
-                loading: false,
-                data: data.data,
-                items: data.data.items
-            });
+            console.log(data.data)
+            setTimeout(() => {
+                this.setState({
+                    loading: false,
+                    data: data.data,
+                    items: data.data.items
+                });
+            }, 1000);
         })
         .catch(error => console.log(error))
-        // .catch(function errorBlock(error) {
-        //     console.log(error);
-        //     this.setState({
-        //         loading: false,
-        //         data: {},
-        //         items: []
-        //     });
-        // })
     }
 
     render() {
         if (this.state.loading) {
             return (
-            <div>
+            <div align="center">
                 <img className="loading"
                     src="http://image.uisdc.com/wp-content/uploads/2015/09/weather.gif" 
                     width="160" 
@@ -50,13 +48,11 @@ export default class News extends React.Component {
                 <div>
                     {this.state.items.map((item) => {                        
                         return (
-                            // <li key={item.id}>
                                 <NewsItemView key={item.resource.id}
                                 resource_type = {item.resource_type}
                                 resource_owner = {item.resource_owner}
                                 resource = {item.resource}
                             />
-                            // </li>
                         )
                     })}
                 </div>
